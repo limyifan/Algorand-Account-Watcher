@@ -53,6 +53,7 @@ The application meets the outlined requirements:
 - Written in Node.js using Express framework
 - Fetch account information using the Algorand Node API
 - MongoDB used to persist account tracker data
+- Mongoose used to define schema for tracked accounts
 - Unit tests cover core functionality
 - Configurable environment variables
 - Uses node-schedule for periodic job
