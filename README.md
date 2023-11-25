@@ -23,6 +23,19 @@ To run the project, please use a command line the following:
 To test the project, please use a command line the following:
 - `npm run test`
 
+## Endpoints
+
+**1. Accept Algorand Addresses for Tracking**
+
+- `/addWatch/:address`
+  - POST method to add address to tracking list
+
+**2. List Tracked Accounts**
+
+- `/getWatchList`
+  - GET method returns array of watched accounts
+  - Currently stores address and balance
+
 ## Requirements
 
 The application meets the outlined requirements:
