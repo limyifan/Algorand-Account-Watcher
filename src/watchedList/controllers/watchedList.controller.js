@@ -3,7 +3,7 @@ const algosdk = require('algosdk');
 
 exports.watchAccount = (req, res) => {
     const address = req.params.address
-    console.log(address)
+
     // // Validate address
     if (!algosdk.isValidAddress(address)) {
         return res.status(400).send('Invalid address');

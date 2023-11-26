@@ -11,6 +11,15 @@ const watchedSchema = new mongoose.Schema({
 
 const WatchedAccount = mongoose.model('WatchedAccount', watchedSchema);
 
+/**
+ * Gets list of all watched Algorand accounts.
+ *
+ * Fetches all accounts from the database and returns
+ * an array containing the address and balance for
+ * each watched account.
+ *
+ * @returns {Object[]} Array of watched accounts
+ */
 exports.getAllWatchedAccounts = async () => {
     let allWatchedAccounts = await WatchedAccount.find();
     let filteredWatchedAccounts = allWatchedAccounts.map(acc => {
@@ -19,6 +28,15 @@ exports.getAllWatchedAccounts = async () => {
     return filteredWatchedAccounts;
 }
 
+/**
+ * Adds a new Algorand account address to track.
+ *
+ * Checks if already watching the address. If not, saves
+ * a new watched account entry to the database.
+ *
+ * @param {string} address - The Algorand account address
+ * @returns {boolean} true if new account was added, false if already watching
+ */
 exports.addNewWatchAccount = async (address) => {
     // Check if account being watched
     let watched = await WatchedAccount.findOne({address});
@@ -28,12 +46,20 @@ exports.addNewWatchAccount = async (address) => {
         const t = await new WatchedAccount({
             address: address, balance: null
         }).save();
-        console.log("saved" + t)
         return true
     }
     return false
 }
-// Check states
+
+/**
+ * Periodically checks the state of watched Algorand accounts.
+ * Fetches the latest balance for each watched account from the
+ * Algorand API and compares against the stored balance.
+ *
+ * If the balance differs:
+ * - Logs a notification with account details and balance change
+ * - Updates the locally stored balance for that account
+ */
 exports.checkAccountStates = async () => {
 
     // Get watched accounts
@@ -68,6 +94,12 @@ exports.checkAccountStates = async () => {
 
 }
 
+/**
+ * Logs a notification message to the console
+ * with the current timestamp.
+ *
+ * @param {string} message - The notification message to log
+ */
 function logNotification(message) {
     const timestamp = new Date().toISOString();
     console.log(`${timestamp}: ${message}`);
